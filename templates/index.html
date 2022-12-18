@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for i in data %}
+        {{i.img}}
+        <p><b> Oilasi:</b> {{i.oilasi}}</p>
+        <p><b>Turi: </b>{{i.turi}}</p>
+        <p><b>Nomi:</b> {{i.nomi}}</p>
+        <p><b>Muallifi:</b> {{i.muallifi}}</p>
+        <p><b>Yili:</b> {{i.yili}}</p>
+        <p><b>Maqomi: </b>{{i.maqomi}}</p>
+        <p><b>Tarqalishi: </b>{{i.tarqalishi}}</p>
+        <p><b>Yashash joylari:</b> {{i.yashash_joylari}}</p>
+        <p><b>Soni:</b> {{i.soni}}</p>
+        <p><b>Yashash tarzi: </b>{{i.yashash_tarzi}}</p>
+        <p><b>Cheklovchi omillar:</b> {{i.cheklovchi_omillar}}</p>
+        <p><b>Ko'paytirish:</b>  {{i.kupaytirish}}</p>
+        <p><b>Muhofaza choralari: </b> {{i.choralari}}</p>
+    {% endfor %}
+</body>
+</html>

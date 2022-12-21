@@ -20,7 +20,7 @@ class Nature(models.Model):
     oilasi = models.ForeignKey(Oilasi,on_delete=models.CASCADE)
     turi = models.CharField(max_length=11,choices=CHOICES,default="Hayvonlar")
     nomi = models.CharField(max_length=255)
-    muallifi = models.CharField(max_length=255)
+    muallifi = models.CharField(max_length=255)#olib tashlash kerak
     yili = models.IntegerField(default=2000)
     maqomi = models.TextField()
     tarqalishi = models.TextField()
@@ -30,7 +30,7 @@ class Nature(models.Model):
     cheklovchi_omillar = models.TextField()
     kupaytirish = models.CharField(max_length=255)
     choralari = models.TextField()
-    img = models.ImageField(default="")
+    img = models.ImageField(upload_to="nature/",default="")
 
     class Meta:
         verbose_name = ("Tur")
@@ -49,4 +49,4 @@ class Coordinate(models.Model):
         verbose_name_plural = ("Kordinatalar")
         
     def __str__(self):
-        return self.nomi
+        return self.nomi.nomi

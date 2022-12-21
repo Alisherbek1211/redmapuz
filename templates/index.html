@@ -9,7 +9,7 @@
 </head>
 <body>
     {% for i in data %}
-        <!-- <img src="{% static 'i.img' %}" alt=""> -->
+        <img src={{i.img.url}} alt="",>
         <p><b> Oilasi:</b> {{i.oilasi}}</p>
         <p><b>Turi: </b>{{i.turi}}</p>
         <p><b>Nomi:</b> {{i.nomi}}</p>

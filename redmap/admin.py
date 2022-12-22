@@ -7,7 +7,7 @@ class OilaAdmin(admin.ModelAdmin):
 admin.site.register(Oilasi,OilaAdmin)
 
 class NatureAdmin(admin.ModelAdmin):
-    list_display = ['turi','nomi','muallifi','yili','soni']
+    list_display = ['turi','nomi','yili','soni']
 admin.site.register(Nature,NatureAdmin)
 
 class CoordinateAdmin(admin.ModelAdmin):

@@ -24,6 +24,7 @@ regions = {
 def regionListView(request):
     reg = request.GET.get("region","")
     tur = request.GET.get("tur","")
-    objectList = Nature.objects.filter(turi = tur).coordinate_set.filter(region=reg)
-    return render(request,"xarita/maps.html",{"objectList":objectList})
+    
+    objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
+    return render(request,"xarita/maps.html",{"objectList":objectList,})
     

@@ -26,5 +26,5 @@ def regionListView(request):
     
     objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
     reg = regions.get(reg)
-    return render(request,"xarita/maps.html",{"objectList":objectList,"x":reg.get('x'),"y":reg.get('y'),"viloyatlar":viloyatlar})
+    return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
     

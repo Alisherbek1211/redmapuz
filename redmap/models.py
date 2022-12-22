@@ -5,21 +5,21 @@ CHOICES = (
     ("Hayvonlar", "Hayvonlar"),
     ("O'simliklar", "O'simliklar"),
 )
-REGIONS = (
-    ("Xorazm", "Xorazm"),
-    ("Andijan", "Andijon"),
-    ("Surxondaryo", "Surxondaryo"),
-    ("Buxoro", "Buxoro"),
-    ("Toshkent", "Toshkent"),
-    ("Navoiy", "Navoiy"),
-    ("Fargona", "Fargona"),
-    ("Nukus", "Nukus"),
-    ("Jizzax", "Jizzax"),
-    ("Qarshi", "Qarshi"),
-    ("Namangan", "Namangan"),
-    ("Samarkand", "Samarkand"),
-    ("Sirdaryo", "Sirdaryo"),
-)
+REGIONS = [
+    ["Xorazm", "Xorazm"],
+    ["Andijan", "Andijon"],
+    ["Surxondaryo", "Surxondaryo"],
+    ["Buxoro", "Buxoro"],
+    ["Toshkent", "Toshkent"],
+    ["Navoiy", "Navoiy"],
+    ["Fargona", "Farg'ona"],
+    ["Nukus", "Nukus"],
+    ["Jizzax", "Jizzax"],
+    ["Qarshi", "Qarshi"],
+    ["Namangan", "Namangan"],
+    ["Samarkand", "Samarkand"],
+    ["Sirdaryo", "Sirdaryo"]
+]
 
 
 class Oilasi(models.Model):

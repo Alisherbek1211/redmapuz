@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from .models import Nature , Coordinate
-
+from .models import Nature , Coordinate , REGIONS as viloyatlar
 def nature(request):
     data = Nature.objects.all()
     return render(request,'index.html',{'data':data})
@@ -26,5 +25,6 @@ def regionListView(request):
     tur = request.GET.get("tur","")
     
     objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
-    return render(request,"xarita/maps.html",{"objectList":objectList,})
+    reg = regions.get(reg)
+    return render(request,"xarita/maps.html",{"objectList":objectList,"x":reg.get('x'),"y":reg.get('y'),"viloyatlar":viloyatlar})
     

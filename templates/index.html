@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,11 +9,11 @@
 
     <!-- css link -->
     <!-- primary css file -->
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="{% static 'css/main.css'  %}" />
     <!-- primary css file -->
 
-    <link rel="stylesheet" href="scss/bottom.css" />
-    <link rel="stylesheet" href="css/bottom_animation.css">
+    <link rel="stylesheet" href="{% static 'scss/bottom.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bottom_animation.css' %}">
     <!-- css link -->
 
     <!-- AOS link -->

@@ -7,7 +7,7 @@ CHOICES = (
 )
 REGIONS = [
     ["Xorazm", "Xorazm"],
-    ["Andijan", "Andijon"],
+    ["Andijon", "Andijon"],
     ["Surxondaryo", "Surxondaryo"],
     ["Buxoro", "Buxoro"],
     ["Toshkent", "Toshkent"],
@@ -17,7 +17,7 @@ REGIONS = [
     ["Jizzax", "Jizzax"],
     ["Qarshi", "Qarshi"],
     ["Namangan", "Namangan"],
-    ["Samarkand", "Samarkand"],
+    ["Samarqand", "Samarkand"],
     ["Sirdaryo", "Sirdaryo"]
 ]
 

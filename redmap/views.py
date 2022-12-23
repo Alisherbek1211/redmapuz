@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Hayvon , CoordinateHayvon ,Osimlik,CoordinateOsimlik, REGIONS as viloyatlar
 # from sentence_transformers import SentenceTransformer, util
 from PIL import Image
@@ -19,7 +19,7 @@ def region(request):
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},
-    "Andijan": {"x":40.77398304415682,"y":72.3435943043043},
+    "Andijon": {"x":40.77398304415682,"y":72.3435943043043},
     "Surxondaryo" : {"x":37.229946780719374,"y":67.28245085330633},
     "Buxoro"  : {"x":39.767552900235394,"y":64.4231326},
     "Toshkent" : {"x":41.312336300425486,"y":69.2787079},
@@ -29,34 +29,18 @@ regions = {
     "Jizzax" : {"x":40.12416731068046 ,"y":67.8400189951009},
     "Qarshi" : {"x":38.8399800001027 ,"y":65.79279479999998},
     "Namangan" : {"x":40.99964820039211,"y":71.6726238},
-    "Samarkand": {"x":39.65500170021967,"y":66.9756953999999},
+    "Samarqand": {"x":39.65500170021967,"y":66.9756953999999},
     "Sirdaryo" : {"x":40.84361 ,"y":68.66167},
 }
 
-class RegionApiView(APIView):
-    def get(self,request):
-        Hayvonlar =Osimliklar= None
-        reg = request.GET.get("region","")
-        tur = request.GET.get("turi","")
-        if reg != "":
-            Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
-            Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
-            reg = regions.get(reg)
-        else:
-            Hayvonlar = CoordinateHayvon.objects.all()
-            Osimliklar = CoordinateOsimlik.objects.all()
-            res = None
-        if tur=="Hayvonlar":
-            Osimliklar = None
-        elif tur== 'Osimlik':
-            Hayvon = None
-        Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y  } for i in Hayvonlar ]
-        for i in Osimliklar:
-            Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y  })
-        context = {
-            "hayvonlar":Hayvonlar,
-            }
-        return Response({"list":context})
+
+def hayvonview(request,id):
+    hayvon = get_object_or_404(Hayvon,id=id)
+    return render(request,"hayvon_detail.html",{"hayvon":hayvon})
+
+def osimlikview(request,id):
+    osimlik = get_object_or_404(Osimlik,id=id)
+    return render(request,"osimlik_detail.html",{"osimlik":osimlik})
 
 def regionListView(request):
     Hayvonlar =Osimliklar= None
@@ -81,12 +65,14 @@ def regionListView(request):
     #     "hayvonlar":Hayvonlar,
     #     # "osimliklar":Osimlikser(Osimliklar,many = True).data,
     #     }
-    Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi } for i in Hayvonlar ]
+    Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi,"type": "hayvon" } for i in Hayvonlar ]
     for i in Osimliklar:
-        Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi  })
+        Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi,"type": "osimlik" })
     context = {
             "hayvonlar":Hayvonlar,
+            "viloyatlar":viloyatlar,
         }
+
     return render(request,"regions.html",context)
 
 def searchImage(request):
@@ -115,7 +101,10 @@ def searchImage(request):
     
     return render(request,"xarita/maps.html",{"images":res})
     
-def searchName(request):
-    pass
-
-    
+def searchName(request,search):
+    searchhayvon = Hayvon.objects.filter(nomi__icontains=search)[:5]
+    searchosimlik = Osimlik.objects.filter(nomi__icontains=search)[:5]
+    natija = [{ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "hayvon" } for i in searchhayvon]
+    for i in searchosimlik:
+        natija.append({ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "osimlik" } )
+    return render(request,"search.html",{"natija":natija}) 

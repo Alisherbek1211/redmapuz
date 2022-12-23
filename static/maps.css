@@ -273,3 +273,8 @@ ul li a{
 
 
 
+input[type=submit] {
+     border: none;
+     text-align: center;
+     border-color: #34495e;
+     }

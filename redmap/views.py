@@ -43,34 +43,27 @@ def osimlikview(request,id):
     return render(request,"osimlik_detail.html",{"osimlik":osimlik})
 
 def regionListView(request):
-    Hayvonlar =Osimliklar= None
+    Hayvonlar =Osimliklar= []
     reg = request.GET.get("region","")
-    tur = request.GET.get("turi","")
-    if reg != "":
+    if reg == "Farg'ona":
+        reg = "Fargona"
+    if reg != "" and reg != "O'zbekiston":
         Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
         Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
         reg = regions.get(reg)
+        print(type(reg))
+        reg["zoom"]= 7
     else:
         Hayvonlar = CoordinateHayvon.objects.all()
         Osimliklar = CoordinateOsimlik.objects.all()
-        res = None
-    if tur=="Hayvonlar":
-        Osimliklar = None
-    elif tur== 'Osimlik':
-        Hayvon = None
-    # Hayvonlar = [{
-    #     "id":obj.id,
-    #     } for obj in Hayvonlar]
-    # context = {
-    #     "hayvonlar":Hayvonlar,
-    #     # "osimliklar":Osimlikser(Osimliklar,many = True).data,
-    #     }
+        reg = {"x":41.765073,"y":63.150127,"zoom":1}
     Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi,"type": "hayvon" } for i in Hayvonlar ]
     for i in Osimliklar:
         Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi,"type": "osimlik" })
     context = {
             "hayvonlar":Hayvonlar,
             "viloyatlar":viloyatlar,
+            "reg":reg,
         }
 
     return render(request,"regions.html",context)

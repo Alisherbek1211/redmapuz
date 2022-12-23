@@ -179,5 +179,8 @@
     /* margin-top: 25%; */
 }
 
-/* map  content  end */
-/* section  map part  end*/
+input[type=submit] {
+border: none;
+text-align: center;
+border-color: #34495e;
+}

@@ -28,6 +28,8 @@
 
 </head>
 <body>
+     <h1>{{objectList.0.name}}</h1>
+     <p>{{objectList}}</p>
      
      <section class="section-map-part">
 
@@ -63,15 +65,20 @@
                <div class="sidebar">
                     <div class="sidebar-body">
                          <div class="links-wrapper">
-                              {% for i in viloyatlar %}
+                              {%  for i in viloyatlar %}
                               <div class="link-wrapper">
-                                   <span>i.0</span>
+                              
+                                   <span>{{i.1}}</span>
                                    <div class="icon">
                                         <i class="fa-solid fa-angle-down"></i>
                                    </div>
                               </div>
+
+                              <div class="link-content" id="tab-content-1">
+                                   <div class="change">O'simliklar</div>
+                                   <div class="change">Hayvonlar</div>
+                              </div>
                               {% endfor %}
-                         </div>
                     </div>
                </div>
                <!-- sidebar ***************************************** -->

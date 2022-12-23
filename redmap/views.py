@@ -1,4 +1,5 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 from .models import Nature , Coordinate , REGIONS as viloyatlar
 
 from sentence_transformers import SentenceTransformer, util
@@ -13,6 +14,15 @@ model = SentenceTransformer('clip-ViT-B-32')
 def nature(request):
     data = Nature.objects.all()
     return render(request,'index.html',{'data':data})
+=======
+from .models import Hayvon
+
+def index(request):
+    return render(request,"index.html")
+# def nature(request):
+#     data = Nature.objects.all()
+#     return render(request,'index.html',{'data':data})
+>>>>>>> dbfd90d9b00106897dfa1b92ab3ef8ce1a4d8d32
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},
@@ -30,6 +40,7 @@ regions = {
     "Sirdaryo" : {"x":40.84361 ,"y":68.66167},
 }
 
+<<<<<<< HEAD
 def regionListView(request):
     objectList = None
     reg = request.GET.get("region","")
@@ -50,3 +61,12 @@ def searchName(request):
     pass
 
     
+=======
+# def regionListView(request):
+#     reg = request.GET.get("region","")
+#     tur = request.GET.get("tur","")
+    
+#     objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
+#     reg = regions.get(reg)
+#     return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
+>>>>>>> dbfd90d9b00106897dfa1b92ab3ef8ce1a4d8d32

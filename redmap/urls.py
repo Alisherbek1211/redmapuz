@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import nature , regionListView
+from .views import index 
 urlpatterns = [
-    path('',nature),
-    path("regions/",regionListView,name ="region"),
+    path('',index),
 ]

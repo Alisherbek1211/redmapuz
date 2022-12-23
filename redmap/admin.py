@@ -21,3 +21,5 @@ admin.site.register(CoordinateHayvon,CoordinateHayvonAdmin)
 class CoordinateOsimlikAdmin(admin.ModelAdmin):
     list_display = ['nomi','x','y']
 admin.site.register(CoordinateOsimlik,CoordinateOsimlikAdmin)
+
+#o'zgarish

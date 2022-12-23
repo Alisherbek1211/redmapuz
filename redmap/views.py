@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from .models import Nature , Coordinate , REGIONS as viloyatlar
-def nature(request):
-    data = Nature.objects.all()
-    return render(request,'index.html',{'data':data})
+from .models import Hayvon
+
+def index(request):
+    return render(request,"index.html")
+# def nature(request):
+#     data = Nature.objects.all()
+#     return render(request,'index.html',{'data':data})
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},
@@ -20,11 +23,10 @@ regions = {
     "Sirdaryo" : {"x":40.84361 ,"y":68.66167},
 }
 
-def regionListView(request):
-    reg = request.GET.get("region","")
-    tur = request.GET.get("tur","")
+# def regionListView(request):
+#     reg = request.GET.get("region","")
+#     tur = request.GET.get("tur","")
     
-    objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
-    reg = regions.get(reg)
-    return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
-    
+#     objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
+#     reg = regions.get(reg)
+#     return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})

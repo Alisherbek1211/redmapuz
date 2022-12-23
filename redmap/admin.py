@@ -1,15 +1,23 @@
 from django.contrib import admin
-from .models import Nature,Coordinate,Oilasi
+from .models import Hayvon,Osimlik,Oilasi,CoordinateHayvon,CoordinateOsimlik
 
 
 class OilaAdmin(admin.ModelAdmin):
     list_display = ['name']
 admin.site.register(Oilasi,OilaAdmin)
 
-class NatureAdmin(admin.ModelAdmin):
-    list_display = ['turi','nomi','yili','soni']
-admin.site.register(Nature,NatureAdmin)
+class HayvonAdmin(admin.ModelAdmin):
+    list_display = ['nomi','yili','soni']
+admin.site.register(Hayvon,HayvonAdmin)
 
-class CoordinateAdmin(admin.ModelAdmin):
+class OsimlikAdmin(admin.ModelAdmin):
+    list_display = ['nomi','soni']
+admin.site.register(Osimlik,OsimlikAdmin)
+
+class CoordinateHayvonAdmin(admin.ModelAdmin):
     list_display = ['nomi','x','y']
-admin.site.register(Coordinate,CoordinateAdmin)
+admin.site.register(CoordinateHayvon,CoordinateHayvonAdmin)
+
+class CoordinateOsimlikAdmin(admin.ModelAdmin):
+    list_display = ['nomi','x','y']
+admin.site.register(CoordinateOsimlik,CoordinateOsimlikAdmin)

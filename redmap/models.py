@@ -33,10 +33,8 @@ class Oilasi(models.Model):
         verbose_name_plural = ("Oilalari")
 
 
-class Nature(models.Model):
+class Hayvon(models.Model):
     oilasi = models.ForeignKey(Oilasi, on_delete=models.CASCADE)
-    turi = models.CharField(
-        max_length=11, choices=CHOICES, default="Hayvonlar")
     nomi = models.CharField(max_length=255)
     yili = models.IntegerField(default=2000)
     maqomi = models.TextField()
@@ -50,22 +48,56 @@ class Nature(models.Model):
     img = models.ImageField(upload_to="nature/", default="")
 
     class Meta:
-        verbose_name = ("Tur")
-        verbose_name_plural = ("Turlari")
+        verbose_name = ("Hayvon")
+        verbose_name_plural = ("Hayvonlar")
+
+    def __str__(self):
+        return self.nomi
+    
+class Osimlik(models.Model):
+    oilasi = models.ForeignKey(Oilasi, on_delete=models.CASCADE)
+    nomi = models.CharField(max_length=255)
+    maqomi = models.TextField()
+    tavsif = models.TextField()
+    tarqalishi = models.TextField()
+    sharoiti = models.TextField()
+    soni = models.TextField()
+    kupayishi = models.CharField(max_length=255)
+    ozgarish_sabablari = models.TextField() 
+    madaniylashtirish = models.TextField()
+    muhofaza_choralari = models.TextField()
+    img = models.ImageField(upload_to="nature/", default="")
+
+    class Meta:
+        verbose_name = ("O'simlik")
+        verbose_name_plural = ("O'simliklar")
 
     def __str__(self):
         return self.nomi
 
 
-class Coordinate(models.Model):
-    nomi = models.ForeignKey(Nature, on_delete=models.CASCADE)
+class CoordinateHayvon(models.Model):
+    nomi = models.ForeignKey(Hayvon, on_delete=models.CASCADE)
     region = models.CharField(max_length=20,choices=REGIONS)
     x = models.FloatField(default=0)
     y = models.FloatField(default=0)
 
     class Meta:
-        verbose_name = ("Kordinata")
-        verbose_name_plural = ("Kordinatalar")
+        verbose_name = ("Kordinata Hayvon")
+        verbose_name_plural = ("Kordinatalar Hayvon")
+
+    def __str__(self):
+        return self.nomi.nomi
+
+class CoordinateOsimlik(models.Model):
+    nomi = models.ForeignKey(Osimlik, on_delete=models.CASCADE)
+    region = models.CharField(max_length=20,choices=REGIONS)
+    x = models.FloatField(default=0)
+    y = models.FloatField(default=0)
+
+    class Meta:
+        verbose_name = ("Kordinata O'simlik")
+        verbose_name_plural = ("Kordinatalar O'simliklar")
 
     def __str__(self):
         return self.nomi.nomi

@@ -48,8 +48,31 @@ def regionListView(request):
     return render(request,"xarita/maps.html",context)
 
 def searchImage(request):
-    files = request.FILES.get()
+    file_temp = request.FILES["imagesearch"]
+    
+    res = []
+    hayvonlar = Hayvon.objects.all()
+    osimliklar = Osimlik.objects.all()
+    for h in hayvonlar:
+        encoded_image = model.encode([h.img.file,file_temp], batch_size=128, convert_to_tensor=True, show_progress_bar=True)
+        processed_images = util.paraphrase_mining_embeddings(encoded_image)
 
+        for score, image_id1, image_id2 in processed_images:
+            score = "{:.3f}%".format(score * 100)
+            res.append([score,h.img.url,h.id,"hayvondetail"])
+    for h in osimliklar:
+        encoded_image = model.encode([h.img.file,file_temp], batch_size=128, convert_to_tensor=True, show_progress_bar=False)
+        processed_images = util.paraphrase_mining_embeddings(encoded_image)
+
+        for score, image_id1, image_id2 in processed_images:
+            score = "{:.3f}%".format(score * 100)
+            res.append([score,h.img.url,h.id,"osimlikdetail"])
+            
+    res.sort(key=lambda x: x[0],reverse=True)
+    res = res[:5]
+    
+    return render(request,"xarita/maps.html",{"images":res})
+    
 def searchName(request):
     pass
 

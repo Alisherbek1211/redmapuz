@@ -7,9 +7,6 @@ from PIL import Image
 model = SentenceTransformer('clip-ViT-B-32')
 
 
-def nature(request):
-    data = Nature.objects.all()
-    return render(request,'index.html',{'data':data})
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},

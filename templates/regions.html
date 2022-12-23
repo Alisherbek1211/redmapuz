@@ -208,7 +208,17 @@
     </section>
 
     <!-- js link  start -->
-    <div style="display: none" id="jsonData" data-json="{{ hayvonlar }}"></div>
+    {% for y in hayvonlar %}
+    <div style="display: none" class="jsonData">
+       
+            <div style="display: none" id="objid" data-json="{{y.id}}"></div> 
+            <div style="display: none" id="objx" data-json="{{y.x}}"></div> 
+            <div style="display: none" id="objy" data-json="{{y.y}}"></div> 
+            <div style="display: none" id="objimgurl" data-json="{{y.img}}"></div> 
+            <div style="display: none" id="objnomi"  data-json="{{y.name}}"></div> 
+             
+    </div>
+    {% endfor %}
     <script src="{% static 'map.js' %}"></script>
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=58ce0551-106a-4330-bc54-837dabd084be"
         type="text/javascript"></script>

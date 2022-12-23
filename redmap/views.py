@@ -50,9 +50,11 @@ class RegionApiView(APIView):
             Osimliklar = None
         elif tur== 'Osimlik':
             Hayvon = None
+        Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y  } for i in Hayvonlar ]
+        for i in Osimliklar:
+            Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y  })
         context = {
-            "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
-            "osimliklar":Osimlikser(Osimliklar,many = True).data,
+            "hayvonlar":Hayvonlar,
             }
         return Response({"list":context})
 
@@ -79,10 +81,12 @@ def regionListView(request):
     #     "hayvonlar":Hayvonlar,
     #     # "osimliklar":Osimlikser(Osimliklar,many = True).data,
     #     }
+    Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi } for i in Hayvonlar ]
+    for i in Osimliklar:
+        Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi  })
     context = {
-            "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
-            "osimliklar":Osimlikser(Osimliklar,many = True).data,
-            }   
+            "hayvonlar":Hayvonlar,
+        }
     return render(request,"regions.html",context)
 
 def searchImage(request):

@@ -3,15 +3,11 @@ ymaps.ready(init);
 var map;
 
 function loadJson(selector) {
-    return document.querySelector(selector).getAttribute('data-json');
+    return document.querySelectorAll(selector).getAttribute('data-json');
   }
 
-  window.onload = function () {
-    var jsonData = loadJson('#jsonData');
-    console.log(jsonData);
-}
-
 function init() {
+
     map = new ymaps.Map('map', {
         center: [41.765073, 63.150127],
         zoom: 1,
@@ -47,7 +43,33 @@ function init() {
             background.geometry.insert(1, mask);
         });
 
-        map.geoObjects.add(background);     
+        map.geoObjects.add(background);
+        // Load Json Data
+        jsonDatas = document.querySelectorAll('.jsonData');
+
+        for (let index = 0; index < jsonDatas.length; index++) {
+            const elementId = jsonDatas[index].querySelector('#objid').getAttribute('data-json');
+            const elementX = jsonDatas[index].querySelector('#objx').getAttribute('data-json');
+            const elementY = jsonDatas[index].querySelector('#objy').getAttribute('data-json');
+            const elementImageUrl = jsonDatas[index].querySelector('#objimgurl').getAttribute('data-json');
+            const elementName = jsonDatas[index].querySelector('#objnomi').getAttribute('data-json');
+
+            var myPlacemark1 = new ymaps.Placemark([elementX, elementY], {
+                balloonContent: `<a class="modal" onclick=modal() href="#"><p>${elementName}</p> <img src="${elementImageUrl}" alt=""/><a/>`,
+            },
+                {
+                    preset: 'islands#greenDotIconWithCaption'
+                });
+            map.geoObjects.add(myPlacemark1);
+        }
+
+
+        
+        
+        // for (let index = 0; index < realJson.length; index++) {
+        //     const element = realJson[index];
+        //     console.log(element.ty);
+        // }
     })
 }
 
@@ -62,11 +84,5 @@ modal = function () {
 function createxy(x, y) {
     console.log('ishladi');
 
-    var myPlacemark1 = new ymaps.Placemark([41, 69], {
-        balloonContent: `<a class="modal" onclick=modal() href="#"><p>Qushlar haqida malumot</p> <img src="./image/logo.png" alt=""/><a/>`,
-    },
-        {
-            preset: 'islands#greenDotIconWithCaption'
-        });
-    map.geoObjects.add(myPlacemark1);
+    
 }

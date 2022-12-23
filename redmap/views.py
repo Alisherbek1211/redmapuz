@@ -58,7 +58,7 @@ class RegionApiView(APIView):
 def regionListView(request):
     Hayvonlar =Osimliklar= None
     reg = request.GET.get("region","")
-    tur = request.GET.get("tur","")
+    tur = request.GET.get("turi","")
     if reg != "":
         Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
         Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
@@ -67,16 +67,15 @@ def regionListView(request):
         Hayvonlar = CoordinateHayvon.objects.all()
         Osimliklar = CoordinateOsimlik.objects.all()
         res = None
-    if tur in ("Hayvonlar","O'simliklar"):
-        Hayvonlar = Hayvonlar.filter(nomi__turi = tur)
-        Osimlilar = Osimliklar.filter(nomi__turi = tur)
+    if tur=="Hayvonlar":
+        Osimliklar = None
+    elif tur== 'Osimlik':
+        Hayvon = None
     context = {
-        "hayvonlar":Hayvonlar,
-        "osimliklar":Osimliklar,
-        "coord":reg,
-        "viloyatlar":viloyatlar,
+        "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
+        "osimliklar":Osimlikser(Osimliklar,many = True).data,
         }
-    return render(request,"xarita/maps.html",context)
+    return render(request,"regions.html",context)
 
 def searchImage(request):
     file_temp = request.FILES["imagesearch"]

@@ -19,5 +19,20 @@ class Hayvonser(ModelSerializer):
         fields = "__all__"
         
 
+class Osimlimserial(ModelSerializer):
+    class Meta:
+        model = Osimlik
+        fields = "__all__"
+        
+        
+        
+class Osimlikser(ModelSerializer):
+    nomi = Osimlimserial()
+    class Meta:
+        model = CoordinateOsimlik
+        
+        fields = "__all__"
+        
+
 
     

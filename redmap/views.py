@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer, util
 from PIL import Image
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .ser import Hayvonser
+from .ser import Hayvonser,Osimlikser
 model = SentenceTransformer('clip-ViT-B-32')
 
 def  index(request):
@@ -36,7 +36,7 @@ class RegionApiView(APIView):
     def get(self,request):
         Hayvonlar =Osimliklar= None
         reg = request.GET.get("region","")
-        tur = request.GET.get("tur","")
+        tur = request.GET.get("turi","")
         if reg != "":
             Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
             Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
@@ -45,12 +45,13 @@ class RegionApiView(APIView):
             Hayvonlar = CoordinateHayvon.objects.all()
             Osimliklar = CoordinateOsimlik.objects.all()
             res = None
-        if tur in ("Hayvonlar","O'simliklar"):
-            Hayvonlar = Hayvonlar.filter(nomi__turi = tur)
-            Osimlilar = Osimliklar.filter(nomi__turi = tur)
+        if tur=="Hayvonlar":
+            Osimliklar = None
+        elif tur== 'Osimlik':
+            Hayvon = None
         context = {
             "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
-            # "osimliklar":Osimliklar,
+            "osimliklar":Osimlikser(Osimliklar,many = True).data,
             }
         return Response({"list":context})
 

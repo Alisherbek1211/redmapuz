@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from .models import Hayvon , CoordinateHayvon ,Osimlik,CoordinateOsimlik, REGIONS as viloyatlar
-from sentence_transformers import SentenceTransformer, util
+# from sentence_transformers import SentenceTransformer, util
 from PIL import Image
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .ser import Hayvonser,Osimlikser
-model = SentenceTransformer('clip-ViT-B-32')
+# model = SentenceTransformer('clip-ViT-B-32')
 
 def  index(request):
     return render(request,'index.html')
@@ -71,10 +72,17 @@ def regionListView(request):
         Osimliklar = None
     elif tur== 'Osimlik':
         Hayvon = None
+    # Hayvonlar = [{
+    #     "id":obj.id,
+    #     } for obj in Hayvonlar]
+    # context = {
+    #     "hayvonlar":Hayvonlar,
+    #     # "osimliklar":Osimlikser(Osimliklar,many = True).data,
+    #     }
     context = {
-        "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
-        "osimliklar":Osimlikser(Osimliklar,many = True).data,
-        }
+            "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
+            "osimliklar":Osimlikser(Osimliklar,many = True).data,
+            }   
     return render(request,"regions.html",context)
 
 def searchImage(request):

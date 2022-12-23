@@ -6,7 +6,8 @@ from PIL import Image
 
 model = SentenceTransformer('clip-ViT-B-32')
 
-
+def  index(request):
+    return render(request,'index.html')
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},

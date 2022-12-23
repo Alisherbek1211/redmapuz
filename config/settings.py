@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'redmap.apps.RedmapConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

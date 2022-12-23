@@ -2,8 +2,9 @@ from django.shortcuts import render
 from .models import Hayvon , CoordinateHayvon ,Osimlik,CoordinateOsimlik, REGIONS as viloyatlar
 from sentence_transformers import SentenceTransformer, util
 from PIL import Image
-
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .ser import Hayvonser
 model = SentenceTransformer('clip-ViT-B-32')
 
 def  index(request):
@@ -30,6 +31,28 @@ regions = {
     "Samarkand": {"x":39.65500170021967,"y":66.9756953999999},
     "Sirdaryo" : {"x":40.84361 ,"y":68.66167},
 }
+
+class RegionApiView(APIView):
+    def get(self,request):
+        Hayvonlar =Osimliklar= None
+        reg = request.GET.get("region","")
+        tur = request.GET.get("tur","")
+        if reg != "":
+            Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
+            Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
+            reg = regions.get(reg)
+        else:
+            Hayvonlar = CoordinateHayvon.objects.all()
+            Osimliklar = CoordinateOsimlik.objects.all()
+            res = None
+        if tur in ("Hayvonlar","O'simliklar"):
+            Hayvonlar = Hayvonlar.filter(nomi__turi = tur)
+            Osimlilar = Osimliklar.filter(nomi__turi = tur)
+        context = {
+            "hayvonlar":Hayvonser(Hayvonlar,many = True).data,
+            # "osimliklar":Osimliklar,
+            }
+        return Response({"list":context})
 
 def regionListView(request):
     Hayvonlar =Osimliklar= None

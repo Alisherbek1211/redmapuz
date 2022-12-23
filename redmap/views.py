@@ -1,28 +1,15 @@
 from django.shortcuts import render
-<<<<<<< HEAD
-from .models import Nature , Coordinate , REGIONS as viloyatlar
-
+from .models import Hayvon , CoordinateHayvon ,Osimlik,CoordinateOsimlik, REGIONS as viloyatlar
 from sentence_transformers import SentenceTransformer, util
 from PIL import Image
-import glob
-import os
-from DeepImageSearch import LoadData
-print('Loading CLIP Model...')
+
+
 model = SentenceTransformer('clip-ViT-B-32')
 
 
 def nature(request):
     data = Nature.objects.all()
     return render(request,'index.html',{'data':data})
-=======
-from .models import Hayvon
-
-def index(request):
-    return render(request,"index.html")
-# def nature(request):
-#     data = Nature.objects.all()
-#     return render(request,'index.html',{'data':data})
->>>>>>> dbfd90d9b00106897dfa1b92ab3ef8ce1a4d8d32
 
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},
@@ -40,33 +27,33 @@ regions = {
     "Sirdaryo" : {"x":40.84361 ,"y":68.66167},
 }
 
-<<<<<<< HEAD
 def regionListView(request):
-    objectList = None
+    Hayvonlar =Osimliklar= None
     reg = request.GET.get("region","")
     tur = request.GET.get("tur","")
     if reg != "":
-        objectList = Coordinate.objects.filter(region = reg)
+        Hayvonlar = CoordinateHayvon.objects.filter(region = reg)
+        Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
         reg = regions.get(reg)
     else:
-        objectList = Coordinate.objects.all()
+        Hayvonlar = CoordinateHayvon.objects.all()
+        Osimliklar = CoordinateOsimlik.objects.all()
+        res = None
     if tur in ("Hayvonlar","O'simliklar"):
-        objectList.filter(nomi__turi = tur)
-    return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
+        Hayvonlar = Hayvonlar.filter(nomi__turi = tur)
+        Osimlilar = Osimliklar.filter(nomi__turi = tur)
+    context = {
+        "hayvonlar":Hayvonlar,
+        "osimliklar":Osimliklar,
+        "coord":reg,
+        "viloyatlar":viloyatlar,
+        }
+    return render(request,"xarita/maps.html",context)
 
 def searchImage(request):
-    pass
+    files = request.FILES.get()
 
 def searchName(request):
     pass
 
     
-=======
-# def regionListView(request):
-#     reg = request.GET.get("region","")
-#     tur = request.GET.get("tur","")
-    
-#     objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
-#     reg = regions.get(reg)
-#     return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
->>>>>>> dbfd90d9b00106897dfa1b92ab3ef8ce1a4d8d32

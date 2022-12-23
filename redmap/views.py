@@ -1,5 +1,15 @@
 from django.shortcuts import render
 from .models import Nature , Coordinate , REGIONS as viloyatlar
+
+from sentence_transformers import SentenceTransformer, util
+from PIL import Image
+import glob
+import os
+from DeepImageSearch import LoadData
+print('Loading CLIP Model...')
+model = SentenceTransformer('clip-ViT-B-32')
+
+
 def nature(request):
     data = Nature.objects.all()
     return render(request,'index.html',{'data':data})
@@ -21,10 +31,22 @@ regions = {
 }
 
 def regionListView(request):
+    objectList = None
     reg = request.GET.get("region","")
     tur = request.GET.get("tur","")
-    
-    objectList = Coordinate.objects.filter(region = reg).filter(nomi__turi = tur)
-    reg = regions.get(reg)
+    if reg != "":
+        objectList = Coordinate.objects.filter(region = reg)
+        reg = regions.get(reg)
+    else:
+        objectList = Coordinate.objects.all()
+    if tur in ("Hayvonlar","O'simliklar"):
+        objectList.filter(nomi__turi = tur)
     return render(request,"xarita/maps.html",{"objectList":objectList,"coord":reg,"viloyatlar":viloyatlar})
+
+def searchImage(request):
+    pass
+
+def searchName(request):
+    pass
+
     

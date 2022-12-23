@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const linkWrapperAll = this.document.querySelectorAll('.link-wrapper');
     const changes = this.document.querySelectorAll('.change');
 
-    const cities = ['Andijan', 'Bukhara', 'Fergana', 'Jizzakh', 'Khorezm', 'Namangan', 'Navoi', 'Kashkadarya', 'Karakalpak', 'Samarkand', 'Sirdarya', 'Surkhandarya', 'Tashkent'];
+    const cities = ['Andijon', 'Buxoro', 'Fargona', 'Jizzax', 'Xorazm', 'Namangan', 'Navoiy', 'Qarshi', 'Nukus', 'Samarqand', 'Sirdaryo', 'Surxondaryo', 'Toshkent'];
 
     function hideLinksWrapper() {
         linksWrapperAll.forEach(function (child) {
@@ -54,10 +54,12 @@ window.addEventListener('DOMContentLoaded', function () {
             const url = new URL(window.location);
 
             if (index % 2 == 1) {
-                url.searchParams.set('turi', 'hayvon');
+                url.searchParams.set('turi', 'Hayvon');
                 window.history.pushState({}, '', url);
+                window.location.reload();
+                return false;
             } else {
-                url.searchParams.set('turi', 'usimlik');
+                url.searchParams.set('turi', 'Osimlik');
                 window.history.pushState({}, '', url);
             }
         });

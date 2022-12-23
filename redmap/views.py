@@ -9,6 +9,9 @@ model = SentenceTransformer('clip-ViT-B-32')
 def  index(request):
     return render(request,'index.html')
 
+def map(request):
+    return render(request,'maps.html')
+
 regions = {
     "Xorazm" : {"x":41.55333524728877,"y":60.63171458968133},
     "Andijan": {"x":40.77398304415682,"y":72.3435943043043},

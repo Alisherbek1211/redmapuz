@@ -88,8 +88,8 @@ def searchImage(request):
             processed_images = util.paraphrase_mining_embeddings(encoded_image)
 
             for score, image_id1, image_id2 in processed_images:
-                score = "{:.3f}%".format(score * 100)
-                res.append([score,h.img.url,h.id,"hayvondetail"])
+                score = "{:.3f}".format(score * 100)
+                res.append([score,h.img.url,h.id,"hayvon"])
         except:
             continue
     for h in osimliklar:
@@ -98,12 +98,12 @@ def searchImage(request):
             processed_images = util.paraphrase_mining_embeddings(encoded_image)
 
             for score, image_id1, image_id2 in processed_images:
-                score = "{:.3f}%".format(score * 100)
-                res.append([score,h.img.url,h.id,"osimlikdetail"])
+                score = "{:.3f}".format(score * 100)
+                res.append([score,h.img.url,h.id,"osimlik"])
         except:
             continue
                 
-    res.sort(key=lambda x: x[0],reverse=False)
+    res.sort(key=lambda x: float(x[0]),reverse=True)
     res = res[:5]
     
     return render(request,"search.html",{"images":res,"form":Getimage()})

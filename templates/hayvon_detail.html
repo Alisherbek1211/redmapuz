@@ -11,44 +11,54 @@
 <body>
     <div class="inner-content">
 		<div class="inner-wrapper">
-			<div class="picture-blog">
-				<h1 class="picture-blog-name">OROL BALIQLARI</h1>
-				<img src="{{ hayvon.img.url }}" alt=".....">
+			<div class="picture-blog" style="display: flex; justify-content: space-between;">
+				<img src="{{ hayvon.img.url }}" alt="....." style="width: 300px; height: auto; margin: auto;">
 			</div>
-			<div class="comment-blog">
-				<div class="blog">
-                    <h3>Nomi</h3>
-                    <p>{{hayvon.nomi}}</p>
+			<div class="comment-blog" style="padding: 20px; display: grid; grid-template-columns: 45% 45%; justify-content: space-around;">
+				<div>
+                    <div class="blog">
+                        <h3 style="color: black;">Nomi</h3>
+                        <p>{{hayvon.nomi}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Maqomi</h3>
+                        <p>{{hayvon.maqomi}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Tarqalishi</h3>
+                        <p>{{hayvon.tarqalishi}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Yashash Joylari</h3>
+                        <p>{{hayvon.yashash_joylari}}</p>
+                    </div>
+                    <br>
                 </div>
-				<div class="blog">
-                    <h3>Maqomi</h3>
-                    <p>{{hayvon.maqomi}}</p>
+				<div>
+                    <div class="blog">
+                        <h3 style="color: black;">Soni</h3>
+                        <p>{{hayvon.soni}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Yasash Tarzi</h3>
+                        <p>{{hayvon.yashash_tarzi}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Ko'paytirish Holati</h3>
+                        <p>{{hayvon.kupaytirish}}</p>
+                    </div>
+                    <br>
+                    <div class="blog">
+                        <h3 style="color: black;">Muhofaza choralari</h3>
+                        <p>{{hayvon.choralari}}</p>
+                    </div>    
                 </div>
-				<div class="blog">
-                    <h3>Tarqalishi</h3>
-                    <p>{{hayvon.tarqalishi}}</p>
-                </div>
-				<div class="blog">
-                    <h3>Yashash Joylari</h3>
-                    <p>{{hayvon.yashash_joylari}}</p>
-                </div>
-				<div class="blog">
-                    <h3>Soni</h3>
-                    <p>{{hayvon.soni}}</p>
-                </div>
-				<div class="blog">
-                    <h3>Yasash Tarzi</h3>
-                    <p>{{hayvon.yashash_tarzi}}</p>
-                </div>
-				<div class="blog">
-                    <h3>Ko'paytirish Holati</h3>
-                    <p>{{hayvon.kupaytirish}}</p>
-                </div>
-				<div class="blog">
-                    <h3>Muhofaza choralari</h3>
-                    <p>{{hayvon.choralari}}</p>
-                </div>
-
+				
 			</div>
 		</div>
 	</div>

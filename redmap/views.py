@@ -1,12 +1,15 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Hayvon , CoordinateHayvon ,Osimlik,CoordinateOsimlik, REGIONS as viloyatlar
-# from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer, util
 from PIL import Image
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .ser import Hayvonser,Osimlikser
-# model = SentenceTransformer('clip-ViT-B-32')
+model = SentenceTransformer('clip-ViT-B-32')
+from django.http import Http404
+from .forms import Getimage
+
 
 def  index(request):
     return render(request,'index.html')
@@ -42,6 +45,7 @@ def osimlikview(request,id):
     osimlik = get_object_or_404(Osimlik,id=id)
     return render(request,"osimlik_detail.html",{"osimlik":osimlik})
 
+
 def regionListView(request):
     Hayvonlar =Osimliklar= []
     reg = request.GET.get("region","")
@@ -57,9 +61,9 @@ def regionListView(request):
         Hayvonlar = CoordinateHayvon.objects.all()
         Osimliklar = CoordinateOsimlik.objects.all()
         reg = {"x":41.765073,"y":63.150127,"zoom":1}
-    Hayvonlar = [ { "id":i.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi,"type": "hayvon" } for i in Hayvonlar ]
+    Hayvonlar = [ { "id":i.nomi.id,"x":i.x,"y":i.y, "img":i.nomi.img.url,"name":i.nomi.nomi,"type": "hayvon" } for i in Hayvonlar ]
     for i in Osimliklar:
-        Hayvonlar.append({ "id":i.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi,"type": "osimlik" })
+        Hayvonlar.append({ "id":i.nomi.id,"x":i.x,"y":i.y,"img":i.nomi.img.url,"name":i.nomi.nomi,"type": "osimlik" })
     context = {
             "hayvonlar":Hayvonlar,
             "viloyatlar":viloyatlar,
@@ -69,35 +73,57 @@ def regionListView(request):
     return render(request,"regions.html",context)
 
 def searchImage(request):
-    file_temp = request.FILES["imagesearch"]
-    
+    form = Getimage(request.POST or None,request.FILES or None)
+    # if not form.is_valid():
+    #     raise Http404
+    print(form)
+    file_temp = form.cleaned_data["image"]
+    print(file_temp)
     res = []
     hayvonlar = Hayvon.objects.all()
     osimliklar = Osimlik.objects.all()
     for h in hayvonlar:
-        encoded_image = model.encode([h.img.file,file_temp], batch_size=128, convert_to_tensor=True, show_progress_bar=True)
-        processed_images = util.paraphrase_mining_embeddings(encoded_image)
+        try:
+            encoded_image = model.encode([Image.open(h.img.url) ,Image.open(file_temp)], batch_size=128, convert_to_tensor=True, show_progress_bar=False)
+            processed_images = util.paraphrase_mining_embeddings(encoded_image)
 
-        for score, image_id1, image_id2 in processed_images:
-            score = "{:.3f}%".format(score * 100)
-            res.append([score,h.img.url,h.id,"hayvondetail"])
+            for score, image_id1, image_id2 in processed_images:
+                score = "{:.3f}%".format(score * 100)
+                res.append([score,h.img.url,h.id,"hayvondetail"])
+        except:
+            continue
     for h in osimliklar:
-        encoded_image = model.encode([h.img.file,file_temp], batch_size=128, convert_to_tensor=True, show_progress_bar=False)
-        processed_images = util.paraphrase_mining_embeddings(encoded_image)
+        try:
+            encoded_image = model.encode([Image.open(h.img.url) ,Image.open(file_temp)], batch_size=128, convert_to_tensor=True, show_progress_bar=False)
+            processed_images = util.paraphrase_mining_embeddings(encoded_image)
 
-        for score, image_id1, image_id2 in processed_images:
-            score = "{:.3f}%".format(score * 100)
-            res.append([score,h.img.url,h.id,"osimlikdetail"])
-            
-    res.sort(key=lambda x: x[0],reverse=True)
+            for score, image_id1, image_id2 in processed_images:
+                score = "{:.3f}%".format(score * 100)
+                res.append([score,h.img.url,h.id,"osimlikdetail"])
+        except:
+            continue
+                
+    res.sort(key=lambda x: x[0],reverse=False)
     res = res[:5]
     
-    return render(request,"xarita/maps.html",{"images":res})
+    return render(request,"search.html",{"images":res,"form":Getimage()})
     
-def searchName(request,search):
-    searchhayvon = Hayvon.objects.filter(nomi__icontains=search)[:5]
-    searchosimlik = Osimlik.objects.filter(nomi__icontains=search)[:5]
-    natija = [{ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "hayvon" } for i in searchhayvon]
-    for i in searchosimlik:
-        natija.append({ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "osimlik" } )
-    return render(request,"search.html",{"natija":natija}) 
+def searchName(request):
+    search = request.GET.get("search","")
+    if search=="":
+        searchhayvon = Hayvon.objects.all()
+        searchosimlik = Osimlik.objects.all()
+        natija = [{ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "hayvon" } for i in searchhayvon]
+        
+        for i in searchosimlik:
+
+            natija.append({ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "osimlik" } )
+        return render(request,"search.html",{"natija":natija,"form":Getimage()}) 
+    else:
+        searchhayvon = Hayvon.objects.filter(nomi__icontains=search)
+        searchosimlik = Osimlik.objects.filter(nomi__icontains=search)
+        natija = [{ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "hayvon" } for i in searchhayvon]
+        for i in searchosimlik:
+
+            natija.append({ "id":i.id,"img":i.img.url,"name":i.nomi,"type": "osimlik" } )
+        return render(request,"search.html",{"natija":natija,"form":Getimage()}) 

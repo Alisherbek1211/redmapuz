@@ -62,7 +62,7 @@ function init() {
             const elementType= jsonDatas[index].querySelector('#objtype').getAttribute('data-json');
 
             var myPlacemark1 = new ymaps.Placemark([elementX, elementY], {
-                balloonContent: ` <a class="modal" onclick=modal() href="/${elementType}/${elementId}"><p>${elementName}</p> <img src="${elementImageUrl}" alt=""/><a/>`,
+                balloonContent: ` <a class="modal" onclick=modal() href="/${elementType}/${elementId}/"><p>${elementName}</p> <img src="${elementImageUrl} " style="width:100px;height:100px;" alt=""/><a/>`,
             },
                 {
                     preset: 'islands#greenDotIconWithCaption'

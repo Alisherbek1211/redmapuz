@@ -8,9 +8,15 @@ function loadJson(selector) {
 
 function init() {
 
+    jsonRegs = document.querySelectorAll('.jsonreg');
+
+    const regiks = jsonRegs[0].querySelector('#regx').getAttribute('data-json');
+    const regigri = jsonRegs[0].querySelector('#regy').getAttribute('data-json');
+    const regzum = jsonRegs[0].querySelector('#regzoom').getAttribute('data-json');
+    
     map = new ymaps.Map('map', {
-        center: [41.765073, 63.150127],
-        zoom: 1,
+        center: [regiks, regigri],
+        zoom: regzum,
         type: 'yandex#hybrid',
         controls: ['zoomControl']
     }, {

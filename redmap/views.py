@@ -52,7 +52,7 @@ def regionListView(request):
         Osimliklar = CoordinateOsimlik.objects.filter(region = reg)
         reg = regions.get(reg)
         print(type(reg))
-        reg["zoom"]= 7
+        reg["zoom"]= 8
     else:
         Hayvonlar = CoordinateHayvon.objects.all()
         Osimliklar = CoordinateOsimlik.objects.all()

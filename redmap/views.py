@@ -6,7 +6,7 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .ser import Hayvonser,Osimlikser
-model = SentenceTransformer('clip-ViT-B-32')
+# model = SentenceTransformer('clip-ViT-B-32')
 from django.http import Http404
 from .forms import Getimage
 
